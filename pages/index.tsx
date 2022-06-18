@@ -47,6 +47,12 @@ useEffect(() => {
                 <h1> {doc.data().title}  </h1>
                 <h3> {doc.data().location} </h3>
                 <h5> {doc.data().date} </h5>
+                {doc.data().photos.map((photo: string) => {
+                    return (
+                        <Image src={photo} alt="gallery" width={300} height={300}/>
+                    )
+                })
+              }
                   </div>
                 )
             }
