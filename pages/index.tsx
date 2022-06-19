@@ -44,7 +44,7 @@ useEffect(() => {
             gallery.map(doc => {
                 return (
                     <div className={styles.image}>
-                <h1> {doc.data().title}  </h1>
+                <h1 className='uppercase'> {doc.data().title}  </h1>
                 <h3> {doc.data().location} </h3>
                 <h5> {doc.data().date} </h5>
                 {doc.data().photos.map((photo: string) => {
