@@ -1,67 +1,71 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { firestore } from '../firebase/clientApp'
-import {collection,QueryDocumentSnapshot,DocumentData,query,where,limit,getDocs} from "@firebase/firestore";
-import { useEffect, useState } from 'react';
-
-
-
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { db } from "../firebase/clientApp";
+import {
+  collection,
+  QueryDocumentSnapshot,
+  DocumentData,
+  query,
+  where,
+  limit,
+  getDocs,
+} from "@firebase/firestore";
+import { useEffect, useState } from "react";
+import GridGalleryCard from "./components/Grid";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import Link from "next/link";
 
 const Home: NextPage = () => {
-  const galleryCollection = collection(firestore,'gallery');
-const [gallery,setGallery] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-const [loading,setLoading] = useState<boolean>(true);
+  const galleryCollection = collection(db, "gallery");
+  const [gallery, setGallery] = useState<QueryDocumentSnapshot<DocumentData>[]>(
+    []
+  );
+  const [loading, setLoading] = useState<boolean>(true);
 
-
-const getGallery = async () => {
-    const galleryQuery = query(galleryCollection)
-    const querySanpshot = await getDocs(galleryQuery);
+  const getGallery = async () => {
+    const galleryQuery = query(galleryCollection);
+    const querySanpshot = await getDocs(galleryQuery)
 
     const result: QueryDocumentSnapshot<DocumentData>[] = [];
-    querySanpshot.forEach(doc => {
-        result.push(doc);
+    querySanpshot.forEach((doc) => {
+      result.push(doc);
     });
     setGallery(result);
-}
+  };
 
-useEffect(() => {
+  useEffect(() => {
     getGallery();
     setTimeout(() => {
-        setLoading(false);
-    }
-    ,1000);
-},[]);
+      setLoading(false);
+    }, 1000);
+  }, []);
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Test</title>
-      </Head>
-      
-        <div className={styles.gallery}>
-            {loading ? <div>Loading...</div> :
-            gallery.map(doc => {
-                return (
-                    <div className={styles.image}>
-                <h1 className='uppercase'> {doc.data().title}  </h1>
-                <h3> {doc.data().location} </h3>
-                <h5> {doc.data().date} </h5>
-                {doc.data().photos.map((photo: string) => {
-                    return (
-                        <Image src={photo} alt="gallery" width={300} height={300}/>
-                    )
-                })
-              }
-                  </div>
-                )
-            }
-            )
-            }
-
+    <div className="h-screen">
+    <div className="container mx-auto">
+      <Nav />
+      </div>
+      <div className="grid sm:grid-cols-4 gap-1 pb-8 ">
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          
+          gallery.map((doc) => {
+            return (
+              <Link href={`/album/${doc.id}`} >
+                <a>
+              <GridGalleryCard imageUrl={doc.data().thumbnail} />
+              </a>
+              </Link>
+            );
+          })
+        )}
+      </div>
+      <Footer/>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

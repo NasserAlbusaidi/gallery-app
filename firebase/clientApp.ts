@@ -16,7 +16,9 @@ initializeApp({
 })
 }
 
-const firestore = getFirestore();
+const db = getFirestore();
 const storage = getStorage();
 
-export {firestore, storage};
+
+
+export {db, storage};

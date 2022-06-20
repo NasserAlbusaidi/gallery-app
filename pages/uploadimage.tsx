@@ -3,6 +3,7 @@ import { storage, firestore } from "../firebase/clientApp";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { setDoc, doc, collection } from "@firebase/firestore";
 import { getDatabase, set, ref as refre } from "firebase/database";
+import Router from "next/router";
 
 const uploadImage = () => {
   const [image, setImage] = useState<File[]>([]);
@@ -27,11 +28,13 @@ const uploadImage = () => {
       location: location,
       date: date,
       category: category,
+      thumbnail: photos[0],
       photos: photos,
     };
     const docref = doc(collection(firestore, "gallery"));
     setDoc(docref, data).then(() => {
         console.log("Document written with ID: ", docref.id);
+        return Router.push("/");
     })
     .catch((error) => {
         console.error("Error adding document: ", error);
@@ -56,8 +59,9 @@ if(photos.length > 0 && title.length > 0 && location.length > 0 && date.length >
         }, 1500);
         
       image.forEach(async (file) => {
+        const folderName = title + "-" + location + "-" + date;
         const fileName = "filename";
-        const fileRef = ref(storage, `images/${fileName + Date.now()}`);
+        const fileRef = ref(storage, `images/${folderName}/${fileName + Date.now()}`);
         uploadBytes(fileRef, file).then(async (snapshot) => {
           console.log("uploaded");
           const downloadURL = await getDownloadURL(snapshot.ref);
@@ -75,7 +79,7 @@ if(photos.length > 0 && title.length > 0 && location.length > 0 && date.length >
 
   return (
     <div>
-      <div className="w-full max-w-xs">
+      <div className="w-full max-w-xs mx-auto py-[200px]">
   <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
