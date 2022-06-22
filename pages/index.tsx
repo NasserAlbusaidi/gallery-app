@@ -53,6 +53,7 @@ const Home: NextPage = () => {
         ) : (
           
           gallery.map((doc) => {
+            console.log(doc.id)
             return (
               <Link href={`/album/${doc.id}`} >
                 <a>

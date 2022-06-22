@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { storage, firestore } from "../firebase/clientApp";
+import { storage, db } from "../firebase/clientApp";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { setDoc, doc, collection } from "@firebase/firestore";
 import { getDatabase, set, ref as refre } from "firebase/database";
@@ -31,7 +31,7 @@ const uploadImage = () => {
       thumbnail: photos[0],
       photos: photos,
     };
-    const docref = doc(collection(firestore, "gallery"));
+    const docref = doc(collection(db, "gallery"));
     setDoc(docref, data).then(() => {
         console.log("Document written with ID: ", docref.id);
         return Router.push("/");
