@@ -9,7 +9,7 @@ export default function Nav() {
             <Link href="/">[Your Name here]</Link>
           </h1>
           <h2 className=" text-sm font-thin italic ">
-            <Link href="/">Photographer</Link>
+            <Link href="/">yo</Link>
           </h2>
         </div>
         <ul className="flex justify-end font-extralight py-2 ">

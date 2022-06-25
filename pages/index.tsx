@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           gallery.map((doc) => {
             console.log(doc.id)
             return (
-              <Link href={`/album/${doc.id}`} >
+              <Link href={`/album/${doc.id}`} key={doc.id} >
                 <a>
               <GridGalleryCard imageUrl={doc.data().thumbnail} />
               </a>

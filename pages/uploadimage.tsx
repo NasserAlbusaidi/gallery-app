@@ -5,7 +5,7 @@ import { setDoc, doc, collection } from "@firebase/firestore";
 import { getDatabase, set, ref as refre } from "firebase/database";
 import Router from "next/router";
 
-const uploadImage = () => {
+const UploadImage = () => {
   const [image, setImage] = useState<File[]>([]);
   const [title, setTitle] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -133,4 +133,4 @@ if(photos.length > 0 && title.length > 0 && location.length > 0 && date.length >
   );
 };
 
-export default uploadImage;
+export default UploadImage;
